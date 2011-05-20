@@ -1,0 +1,47 @@
+/* Another sample anygen Config file */
+
+.abc {
+    // uses a batch file to make a .cs file!
+    // command can be either a command line or a batch script.
+    command:@"
+echo using System;
+echo // projectfilename : %AG_PROJECTFILENAME%
+echo // output type : %AG_OUTPUTFILETYPE%
+echo // input filename: %AG_INPUTFILENAME%
+echo namespace %AG_NAMESPACE% {
+echo    public class %AG_CLASSNAME% {
+echo        public string somestring = @""this is a test of a string"";
+echo. 
+echo    }
+echo }
+echo %AG_INPUTFILENAME%(2,1):BAD:Filename is too sad!
+exit 1
+";
+    
+    /* additonal environment variables that are exposed: 
+        %AG_PROJECTFILENAME%
+        %AG_INPUTFILENAME%
+        %AG_OUTPUTFILETYPE%
+        %AG_NAMESPACE%
+        %AG_CLASSNAME%
+    */
+    
+    // where to expect the output from the tool. 
+    // valid values are stdout, stderr or a path.
+    // you can use standard CMD environment variables (%tmp% ,etc...)
+    // and they will be expanded.
+    result: stdout; // default
+    
+    // where to expect error messages from the tool
+    // valid values are stdout, stderr or a path.
+    // you can use standard CMD environment variables (%tmp% ,etc...)
+    // and they will be expanded.
+    // errors are only picked up on exitcode != 0
+    errors: stdout; // default 
+    
+    // optional: error matching regular expression
+    // use grouping names to match elements:
+    //      group names: row, column, message, level
+    // (unused group names: filename, code)
+    error-rx: @"(?<filename>[^(]*)\((?<row>\d*),(?<column>\d*)\):(?<code>.*):(?<message>.*)";
+}

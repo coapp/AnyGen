@@ -1,0 +1,41 @@
+/* Sample anygen Config file */
+
+///
+/// Anygen config files must be in the same directory as the .csproj file 
+/// and have the same name, just use .anygen as the extension
+/// so c:\foo\myproj.csproj -> c:\foo\myproj.anygen 
+///
+
+/* 
+The format:
+
+.xyz { // the file extension to generate for
+
+    // the command is the command to execute to produce the generated code. 
+    // can be a single command or a whole batch script
+    command: @"sometool.exe --input=%AG_INPUTFILENAME% --namespace=%AG_NAMESPACE% --classname=%AG_CLASSNAME% ";
+    
+    // where the tool should expect to get the results.
+    // should either be stdout, stderr or a full path to the generated file
+    results: stdout;
+    
+    // where the tool should expect to read errors from 
+    // should either be stdout, stderr or a full path to a file
+    errors: stdout;
+    
+    // a .NET regular expression to parse the error messages
+    // use grouping names to match elements : row, column, message, level
+    // other groups are ignored.
+    error-rx: @"(?<filename>[^(]*)\((?<row>\d*),(?<column>\d*)\):(?<code>.*):(?<message>.*)"; 
+}
+*/
+
+/* 
+    Additonal environment variables that are exposed: 
+
+    %AG_PROJECTFILENAME%    -- full path to the project file name
+    %AG_INPUTFILENAME%      -- input file for code generation
+    %AG_OUTPUTFILETYPE%     -- expected ouptut type (.cs, .vb)
+    %AG_NAMESPACE%          -- expected namespace
+    %AG_CLASSNAME%          -- expected class name
+*/
